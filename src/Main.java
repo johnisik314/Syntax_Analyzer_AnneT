@@ -9,7 +9,8 @@ public class Main {
             //read the file and create a LexicalAnlyzer object with the provided file
             File file = new File("src/test1.pas");
             LexicalAnalyzer la = new LexicalAnalyzer(file);
-            la.output();
+            //la.output();
+            SyntaxAnalyzer sa = new SyntaxAnalyzer(la);
 
         }
 
