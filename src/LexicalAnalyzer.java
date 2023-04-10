@@ -181,7 +181,7 @@ public class LexicalAnalyzer {
         TokenCodes token = TokenCodes.NULL;
 
         if(lexeme.equals(" ")){
-            token = TokenCodes.NOTALEX;
+            token = TokenCodes.SPACE;
         }else if(lexeme.equals("&")){
             token = TokenCodes.NOTALEX;
         }else if(lexeme.equals("|")){

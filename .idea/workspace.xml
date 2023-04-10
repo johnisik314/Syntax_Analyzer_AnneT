@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ec214d4-f335-40cd-85c5-abdff37801b2" name="Changes" comment="lexeme analyzer proj1">
-      <change afterPath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" afterDir="false" />
+    <list default="true" id="2ec214d4-f335-40cd-85c5-abdff37801b2" name="Changes" comment="syntax analyzer; basic accept method and initilizing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LexicalAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LexicalAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TokenCodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TokenCodes.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,12 +84,20 @@
       <option name="project" value="LOCAL" />
       <updated>1681082004374</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="syntax analyzer; basic accept method and initilizing">
+      <created>1681083575704</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1681083575704</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="New Proj" />
     <MESSAGE value="lexeme analyzer proj1" />
-    <option name="LAST_COMMIT_MESSAGE" value="lexeme analyzer proj1" />
+    <MESSAGE value="syntax analyzer; basic accept method and initilizing" />
+    <option name="LAST_COMMIT_MESSAGE" value="syntax analyzer; basic accept method and initilizing" />
   </component>
 </project>
