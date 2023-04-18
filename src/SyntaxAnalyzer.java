@@ -3,43 +3,34 @@ public class SyntaxAnalyzer {
 
     public SyntaxAnalyzer(LexicalAnalyzer la){
         this.la = la;
-        Accept(TokenCodes.PROGRAM);
-        STATEMENT();
-        Accept(TokenCodes.EOF);
+        program();
     }
-
+    public void program(){
+        Token currentTC = la.getNextToken();
+            Accept(TokenCodes.PROGRAM);
+            Accept(TokenCodes.IDENT);
+            Accept(TokenCodes.SEMICOLON);
+          
+    }
     public void COMMENT(){
         Token currentTC = la.getNextToken();
         Token nextTC= la.getNextToken();
-        while(currentTC.tokenCode != TokenCodes.TIMES && nextTC.tokenCode != TokenCodes.RPAREN){
+        while(currentTC.tokenCode != TokenCodes.TIMES){
             currentTC = nextTC;
             nextTC = la.getNextToken();
         }
-        System.out.println("Hi");
+        System.out.println("Comment");
     }
+    //e
     public void IF(){
         Accept(TokenCodes.IF);
         Accept(TokenCodes.LPAREN);
-        STATEMENT();
+        
 
     }
 
-    
-    public void STATEMENT(){
-        Token currentTC = la.getNextToken();
-       if(currentTC.tokenCode ==  TokenCodes.LPAREN ){
-            currentTC = la.getNextToken();
-            if(currentTC.tokenCode == TokenCodes.TIMES){
-                COMMENT();
-            }
-
-       }else{
-
-       }
-
-    }
     public void Accept(TokenCodes token){
-        Token currentToken = la.getNextToken();
+        Token currentToken = la.getNextToken();     //declare currentToken object
         while(currentToken.tokenCode == TokenCodes.SPACE){
             currentToken = la.getNextToken();
         }
