@@ -133,9 +133,23 @@ public class LexicalAnalyzer {
                 if(next_letter.equals("&")){
                     currentLocation++;
                     return letter+next_letter;
-                }
+                } 
                 return letter;
-            }else if (letter.equals("!")){
+            }  else if (letter.equals("*")){
+                    currentLocation++;
+                    if(next_letter.equals(")")){
+                        currentLocation++;
+                        return letter+next_letter;
+                    }
+                return letter;
+            }  else if (letter.equals("(")){
+                currentLocation++;
+                if(next_letter.equals("*")){
+                    currentLocation++;
+                    return letter+next_letter;
+                }
+            return letter;
+        } else if (letter.equals("!")){
                 currentLocation++;
                 if(next_letter.equals("=")){
                     currentLocation++;
@@ -203,6 +217,10 @@ public class LexicalAnalyzer {
             token = TokenCodes.EQL;
         }else if(lexeme.equals("==")){
             token = TokenCodes.DEQL;
+        } else if(lexeme.equals("*)")){
+            token = TokenCodes.ENDCOM;
+        } else if(lexeme.equals("(*")){
+            token = TokenCodes.OPENCOM;
         }else if(lexeme.equals("(")){
             token = TokenCodes.LPAREN;
         }else if(lexeme.equals(")")){
