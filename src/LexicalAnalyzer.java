@@ -11,6 +11,8 @@ public class LexicalAnalyzer {
     List<String> lines = new ArrayList<String>();   //needed ArrayList and variables
     int currentLine;
     int currentLocation;
+    String currentLexeme;
+    TokenCodes currentToken;
 
     // LexicalAnalyzer constructor to read file and add lines to 
     public LexicalAnalyzer(File file) throws FileNotFoundException {
@@ -31,6 +33,7 @@ public class LexicalAnalyzer {
         String lexeme = findNextToken(line);
 
         Token token = new Token(lexeme,getTokenCode(lexeme));
+
         return token;
     }
 
