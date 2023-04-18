@@ -1,13 +1,42 @@
 public class SyntaxAnalyzer {
     LexicalAnalyzer la;
-//repo test
+
     public SyntaxAnalyzer(LexicalAnalyzer la){
         this.la = la;
         Accept(TokenCodes.PROGRAM);
-        Accept(TokenCodes.IDENT);
-        Accept(TokenCodes.SEMICOLON);
-        Accept(TokenCodes.PROGRAM);
-        Accept(TokenCodes.PROGRAM);
+        STATEMENT();
+        Accept(TokenCodes.EOF);
+    }
+
+    public void COMMENT(){
+        Token currentTC = la.getNextToken();
+        Token nextTC= la.getNextToken();
+        while(currentTC.tokenCode != TokenCodes.TIMES && nextTC.tokenCode != TokenCodes.RPAREN){
+            currentTC = nextTC;
+            nextTC = la.getNextToken();
+        }
+        System.out.println("Hi");
+    }
+    public void IF(){
+        Accept(TokenCodes.IF);
+        Accept(TokenCodes.LPAREN);
+        STATEMENT();
+
+    }
+
+    
+    public void STATEMENT(){
+        Token currentTC = la.getNextToken();
+       if(currentTC.tokenCode ==  TokenCodes.LPAREN ){
+            currentTC = la.getNextToken();
+            if(currentTC.tokenCode == TokenCodes.TIMES){
+                COMMENT();
+            }
+
+       }else{
+
+       }
+
     }
     public void Accept(TokenCodes token){
         Token currentToken = la.getNextToken();
@@ -17,7 +46,7 @@ public class SyntaxAnalyzer {
         if(currentToken.tokenCode == token){
             System.out.println("Good token: "+ currentToken.lexeme);
             if(currentToken.tokenCode == TokenCodes.EOF){
-                System.out.println("End of file; file is grammatically correct");
+                System.out.println("End of file; file is syntactically correct");
             }
         }else{
             errorMessege();

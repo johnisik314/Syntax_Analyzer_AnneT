@@ -1,5 +1,4 @@
-PROGRAM  ChangeMaker;
-program
+PROGRAM  
   (* Make change  for a dollar *)
   CONST remove from
   Dollar := 100;
