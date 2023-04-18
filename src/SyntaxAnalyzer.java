@@ -13,7 +13,7 @@ public class SyntaxAnalyzer {
     public void COMMENT(){
         String comment = "";
         while(la.currentToken != TokenCodes.TIMES){
-            comment += la.currentLexeme;
+            comment = comment + la.currentLexeme;
         }
     }
     public void IF(){
@@ -34,12 +34,18 @@ public class SyntaxAnalyzer {
             la.getNextToken();
         }
         if(la.currentToken == TokenCodes.IDENT){
-            DECLERATION();
+            DECLERATIONS();
         }else if (la.currentToken == TokenCodes.LPAREN){
             COMMENT();
         }else{
             FUNCTIONS();
         }
+    }
+    public void DECLERATIONS(){
+
+    }
+    public void FUNCTIONS(){
+
     }
     public void Accept(TokenCodes token){
         Token currentToken = la.getNextToken();
