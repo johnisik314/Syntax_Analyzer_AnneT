@@ -16,12 +16,6 @@ public class SyntaxAnalyzer {
             comment = comment + la.currentLexeme;
         }
     }
-    public void IF(){
-        Accept(TokenCodes.IF);
-        Accept(TokenCodes.LPAREN);
-        STATEMENT();
-    }
-
     public void STATEMENTS(){
         STATEMENT();
         if(la.currentToken == TokenCodes.IDENT){
@@ -59,6 +53,15 @@ public class SyntaxAnalyzer {
 
         }
     }
+    public void IF(){
+        Accept(TokenCodes.IF);
+        Accept(TokenCodes.LPAREN);
+        STATEMENT();
+    }
+    public void WHILE(){
+
+    }
+
     public void Accept(TokenCodes token){
         Token currentToken = la.getNextToken();
         while(currentToken.tokenCode == TokenCodes.SPACE){
