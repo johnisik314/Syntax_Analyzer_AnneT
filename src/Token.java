@@ -8,7 +8,6 @@ public class Token {
         tokenCode = code;
     }
 
-
     /* no-parameter print function will print the selected lexeme
      *  and its corresponding token code */
 

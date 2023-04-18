@@ -1,42 +1,45 @@
+import java.sql.SQLOutput;
+
 public class SyntaxAnalyzer {
     LexicalAnalyzer la;
 
     public SyntaxAnalyzer(LexicalAnalyzer la){
         this.la = la;
         Accept(TokenCodes.PROGRAM);
-        STATEMENT();
+        STATEMENTS();
         Accept(TokenCodes.EOF);
     }
 
     public void COMMENT(){
-        Token currentTC = la.getNextToken();
-        Token nextTC= la.getNextToken();
-        while(currentTC.tokenCode != TokenCodes.TIMES && nextTC.tokenCode != TokenCodes.RPAREN){
-            currentTC = nextTC;
-            nextTC = la.getNextToken();
+        String comment = "";
+        while(la.currentToken != TokenCodes.TIMES){
+            comment += la.currentLexeme;
         }
-        System.out.println("Hi");
     }
     public void IF(){
         Accept(TokenCodes.IF);
         Accept(TokenCodes.LPAREN);
         STATEMENT();
-
     }
 
-    
+    public void STATEMENTS(){
+        STATEMENT();
+        if(la.currentToken == TokenCodes.IDENT){
+            STATEMENT();
+        }
+    }
     public void STATEMENT(){
-        Token currentTC = la.getNextToken();
-       if(currentTC.tokenCode ==  TokenCodes.LPAREN ){
-            currentTC = la.getNextToken();
-            if(currentTC.tokenCode == TokenCodes.TIMES){
-                COMMENT();
-            }
 
-       }else{
-
-       }
-
+        while (la.currentToken == TokenCodes.SPACE){
+            la.getNextToken();
+        }
+        if(la.currentToken == TokenCodes.IDENT){
+            DECLERATION();
+        }else if (la.currentToken == TokenCodes.LPAREN){
+            COMMENT();
+        }else{
+            FUNCTIONS();
+        }
     }
     public void Accept(TokenCodes token){
         Token currentToken = la.getNextToken();
