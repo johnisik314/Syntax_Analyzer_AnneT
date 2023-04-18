@@ -45,7 +45,19 @@ public class SyntaxAnalyzer {
 
     }
     public void FUNCTIONS(){
+        if(la.currentToken == TokenCodes.IF){
+            IF();
+        }else if (la.currentToken == TokenCodes.WHILE){
+            WHILE();
+        }else if (la. currentToken == TokenCodes.VAR){
+            Accept(TokenCodes.VAR);
+        }else if (la. currentToken == TokenCodes.READSYM){
+            READ();
+        }else if (la. currentToken == TokenCodes.WRITESYM){
+            WRITE();
+        }else if (la. currentToken == TokenCodes.BEGIN){
 
+        }
     }
     public void Accept(TokenCodes token){
         Token currentToken = la.getNextToken();
