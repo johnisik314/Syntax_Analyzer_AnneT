@@ -11,6 +11,8 @@ public class LexicalAnalyzer {
     List<String> lines = new ArrayList<String>();   //needed ArrayList and variables
     int currentLine;
     int currentLocation;
+    String currentLexeme;
+    TokenCodes currentToken;
 
     // LexicalAnalyzer constructor to read file and add lines to 
     public LexicalAnalyzer(File file) throws FileNotFoundException {
@@ -31,6 +33,7 @@ public class LexicalAnalyzer {
         String lexeme = findNextToken(line);
 
         Token token = new Token(lexeme,getTokenCode(lexeme));
+
         return token;
     }
 
@@ -130,9 +133,23 @@ public class LexicalAnalyzer {
                 if(next_letter.equals("&")){
                     currentLocation++;
                     return letter+next_letter;
-                }
+                } 
                 return letter;
-            }else if (letter.equals("!")){
+            }  else if (letter.equals("*")){
+                    currentLocation++;
+                    if(next_letter.equals(")")){
+                        currentLocation++;
+                        return letter+next_letter;
+                    }
+                return letter;
+            }  else if (letter.equals("(")){
+                currentLocation++;
+                if(next_letter.equals("*")){
+                    currentLocation++;
+                    return letter+next_letter;
+                }
+            return letter;
+        } else if (letter.equals("!")){
                 currentLocation++;
                 if(next_letter.equals("=")){
                     currentLocation++;
@@ -200,6 +217,10 @@ public class LexicalAnalyzer {
             token = TokenCodes.EQL;
         }else if(lexeme.equals("==")){
             token = TokenCodes.DEQL;
+        } else if(lexeme.equals("*)")){
+            token = TokenCodes.ENDCOM;
+        } else if(lexeme.equals("(*")){
+            token = TokenCodes.OPENCOM;
         }else if(lexeme.equals("(")){
             token = TokenCodes.LPAREN;
         }else if(lexeme.equals(")")){
