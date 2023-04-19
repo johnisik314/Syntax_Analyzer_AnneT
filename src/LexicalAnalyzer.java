@@ -33,7 +33,7 @@ public class LexicalAnalyzer {
         String lexeme = findNextToken(line);
 
         Token token = new Token(lexeme,getTokenCode(lexeme));
-        while(token.tokenCode == TokenCodes.NOTALEX){
+        while(token.tokenCode == TokenCodes.NOTALEX || token.tokenCode == TokenCodes.EMPTYLINE){
             token = getNextToken();
         }
         return token;
@@ -302,7 +302,11 @@ public class LexicalAnalyzer {
         }else if(lexeme.equalsIgnoreCase("write")) {
             token = TokenCodes.WRITESYM;
         }else if(lexeme.equalsIgnoreCase("integer")){
-            token = TokenCodes.INTSYM;
+            token = TokenCodes.INT;
+        }else if(lexeme.equalsIgnoreCase("boolean")){
+            token = TokenCodes.BOOL;
+        }else if(lexeme.equalsIgnoreCase("real")){
+            token = TokenCodes.REAL;
         }else if(lexeme.equalsIgnoreCase("EmptyLine")){
             token = TokenCodes.EMPTYLINE;
         }else if(lexeme.equalsIgnoreCase("read")){

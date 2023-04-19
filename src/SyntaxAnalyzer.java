@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.beans.Expression;
 import java.sql.SQLOutput;
 
@@ -9,7 +10,8 @@ public class SyntaxAnalyzer {
         Accept(TokenCodes.PROGRAM);
         Accept(TokenCodes.IDENT);
         Accept(TokenCodes.SEMICOLON);
-        STATEMENTS();
+        DECLERATION_PART();
+        STATEMENT_PART();
         //Accept(TokenCodes.EOF);
     }
 
@@ -37,32 +39,55 @@ public class SyntaxAnalyzer {
         }
         System.out.println("^");
     }
+    public void DECLERATION_PART(){
+        System.out.println(la.currentToken.tokenCode);
+        if(la.currentToken.tokenCode == TokenCodes.VAR){
 
+            Accept(TokenCodes.VAR);
+            DECLERATIONS();
+        }
+    }
+    public void DECLERATIONS(){
+        DECLERATION();
+        if(la.currentToken.tokenCode == TokenCodes.IDENT){
+            DECLERATION();
+            DECLERATIONS();
+        }
+    }
+    public void DECLERATION(){
+        IDENT();
+        Accept(TokenCodes.COLON);
+        if(la.currentToken.tokenCode == TokenCodes.REAL){
+            Accept(TokenCodes.REAL);
+        }else if(la.currentToken.tokenCode == TokenCodes.INT){
+            Accept(TokenCodes.INT);
+        }else if(la.currentToken.tokenCode == TokenCodes.BOOL){
+            Accept(TokenCodes.BOOL);
+        }
+        Accept(TokenCodes.SEMICOLON);
+    }
+    public void IDENT(){
+        Accept(TokenCodes.IDENT);
+        if(la.currentToken.tokenCode == TokenCodes.COMMA){
+            Accept(TokenCodes.COMMA);
+            IDENT();
+        }
+    }
     //possible statements inside the program; function, identifier, or comment
-    public void STATEMENTS(){
+    public void STATEMENT_PART(){
         STATEMENT();
         if(la.currentToken.tokenCode == TokenCodes.IDENT){
             STATEMENT();
         }
     }
     public void STATEMENT(){
-        while (la.currentToken.tokenCode == TokenCodes.SPACE){
-            la.getNextToken();
-        }
-        System.out.println("yooo"+ la.currentToken.tokenCode);
-        if(la.currentToken.tokenCode == TokenCodes.IDENT){
-            DECLERATIONS();
-        }else if (la.currentToken.tokenCode == TokenCodes.LPAREN){
 
+        if (la.currentToken.tokenCode == TokenCodes.LPAREN){
             COMMENT();
         }else{
             FUNCTIONS();
         }
     }
-    public void DECLERATIONS(){
-
-    }
-
     //accept comments and verify the syntax
     public void COMMENT(){
         Accept(TokenCodes.LPAREN);
@@ -77,6 +102,7 @@ public class SyntaxAnalyzer {
             System.out.println(nextToken);
         }
         Accept(TokenCodes.TIMES);
+        System.out.println("yoo");
         Accept(TokenCodes.RPAREN);
     }
     public void FUNCTIONS(){
@@ -164,10 +190,10 @@ public class SyntaxAnalyzer {
     }
     public void TERM(){
         if(la.currentToken.tokenCode == TokenCodes.NOT ||
-            la.currentToken.tokenCode == TokenCodes.IDENT ||
-            la.currentToken.tokenCode == TokenCodes.NUMLIT||
-            la.currentToken.tokenCode == TokenCodes.TRUE ||
-            la.currentToken.tokenCode == TokenCodes.FALSE
+                la.currentToken.tokenCode == TokenCodes.IDENT ||
+                la.currentToken.tokenCode == TokenCodes.NUMLIT||
+                la.currentToken.tokenCode == TokenCodes.TRUE ||
+                la.currentToken.tokenCode == TokenCodes.FALSE
         ){
             FACTOR();
         }else if(la.currentToken.tokenCode == TokenCodes.TIMES){
