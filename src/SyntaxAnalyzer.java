@@ -70,7 +70,7 @@ public class SyntaxAnalyzer {
         Token currentToken = new Token(la.currentToken.lexeme,la.currentToken.tokenCode);
         Token nextToken = la.getNextToken();
         //while loop skips until we get to the end of the comment: *)
-        while (currentToken.tokenCode == TokenCodes.TIMES && nextToken.tokenCode == TokenCodes.RPAREN){
+        while (currentToken.tokenCode != TokenCodes.TIMES && nextToken.tokenCode != TokenCodes.RPAREN){
             currentToken = nextToken;
             nextToken = la.getNextToken();
             System.out.println(currentToken);
