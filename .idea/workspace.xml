@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ec214d4-f335-40cd-85c5-abdff37801b2" name="Changes" comment="syntax analyzer; edit on functions()" />
+    <list default="true" id="2ec214d4-f335-40cd-85c5-abdff37801b2" name="Changes" comment="syntax analyzer; added boolean statements for if and  while; up to their primary factors">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LexicalAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LexicalAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TokenCodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TokenCodes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test1.pas" beforeDir="false" afterPath="$PROJECT_DIR$/src/test1.pas" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -115,7 +122,28 @@
       <option name="project" value="LOCAL" />
       <updated>1681855391184</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="syntax analyzer; edit on functions">
+      <created>1681855477172</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1681855477172</updated>
+    </task>
+    <task id="LOCAL-00010" summary="syntax analyzer; eedit">
+      <created>1681855688176</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1681855688176</updated>
+    </task>
+    <task id="LOCAL-00011" summary="syntax analyzer; added boolean statements for if and  while; up to their primary factors">
+      <created>1681860473662</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1681860473662</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -136,6 +164,9 @@
     <MESSAGE value="syntax analyzer; accept function is kinda done + some testcode for it" />
     <MESSAGE value="syntax analyzer; addition of declerations and functions" />
     <MESSAGE value="syntax analyzer; edit on functions()" />
-    <option name="LAST_COMMIT_MESSAGE" value="syntax analyzer; edit on functions()" />
+    <MESSAGE value="syntax analyzer; edit on functions" />
+    <MESSAGE value="syntax analyzer; eedit" />
+    <MESSAGE value="syntax analyzer; added boolean statements for if and  while; up to their primary factors" />
+    <option name="LAST_COMMIT_MESSAGE" value="syntax analyzer; added boolean statements for if and  while; up to their primary factors" />
   </component>
 </project>

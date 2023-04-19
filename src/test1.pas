@@ -1,4 +1,4 @@
-PROGRAM
+PROGRAM ChangeMaker;
   (* Make change  for a dollar *)
   CONST remove from
   Dollar := 100;
@@ -16,5 +16,5 @@ PROGRAM
   Remainder == Remainder % 10;
   Remainder =  Remainder MOD 5;
   IF (Remainder = 0) THEN Write (“No money left”) ELSE Write (Remainder);
-  ^^
+
   END. (*  ChangeMaker *)

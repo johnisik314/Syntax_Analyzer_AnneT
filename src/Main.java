@@ -18,10 +18,6 @@ public class Main {
         catch (FileNotFoundException e) {
             System.out.println("Error: Cant read the input file!");
             e.printStackTrace();
-     
-            
         }
-
-
     }
 }

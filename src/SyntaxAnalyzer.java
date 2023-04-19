@@ -7,27 +7,26 @@ public class SyntaxAnalyzer {
     public SyntaxAnalyzer(LexicalAnalyzer la){
         this.la = la;
         Accept(TokenCodes.PROGRAM);
+        Accept(TokenCodes.IDENT);
+        Accept(TokenCodes.SEMICOLON);
         STATEMENTS();
-        Accept(TokenCodes.EOF);
+        //Accept(TokenCodes.EOF);
     }
 
     //this is the essential function which accepts token codes;
     //return error message if there is a syntax error
     //continue if there is no errors in the syntax
     public void Accept(TokenCodes token){
-        Token currentToken = la.getNextToken();
-        while(currentToken.tokenCode == TokenCodes.SPACE){
-            currentToken = la.getNextToken();
-        }
-        if(currentToken.tokenCode == token){
-            System.out.println("Good token: "+ currentToken.lexeme);
-            if(currentToken.tokenCode == TokenCodes.EOF){
+        if(la.currentToken.tokenCode == token){
+            System.out.println("Good token: "+ la.currentToken.lexeme);
+            if(la.currentToken.tokenCode == TokenCodes.EOF){
                 System.out.println("End of file; file is syntactically correct");
             }
         }else{
             errorMessege();
-            System.out.println("Syntax Error; \n   Expected lexeme: "+token+"\n   Current token: "+currentToken.tokenCode);
+            System.out.println("Syntax Error; \n   Expected lexeme: "+token+"\n   Current token: "+la.currentToken.tokenCode);
         }
+        la.currentToken = la.getNextToken();
     }
 
     //output of error in terminal if there is any found by Accept() method
@@ -39,21 +38,22 @@ public class SyntaxAnalyzer {
         System.out.println("^");
     }
 
-    //accept comments and verify the syntax
-
+    //possible statements inside the program; function, identifier, or comment
     public void STATEMENTS(){
         STATEMENT();
-        if(la.currentToken == TokenCodes.IDENT){
+        if(la.currentToken.tokenCode == TokenCodes.IDENT){
             STATEMENT();
         }
     }
     public void STATEMENT(){
-        while (la.currentToken == TokenCodes.SPACE){
+        while (la.currentToken.tokenCode == TokenCodes.SPACE){
             la.getNextToken();
         }
-        if(la.currentToken == TokenCodes.IDENT){
+        System.out.println("yooo"+ la.currentToken.tokenCode);
+        if(la.currentToken.tokenCode == TokenCodes.IDENT){
             DECLERATIONS();
-        }else if (la.currentToken == TokenCodes.LPAREN){
+        }else if (la.currentToken.tokenCode == TokenCodes.LPAREN){
+
             COMMENT();
         }else{
             FUNCTIONS();
@@ -62,21 +62,35 @@ public class SyntaxAnalyzer {
     public void DECLERATIONS(){
 
     }
-    public void COMMENT(){
 
+    //accept comments and verify the syntax
+    public void COMMENT(){
+        Accept(TokenCodes.LPAREN);
+        Accept(TokenCodes.TIMES);
+        Token currentToken = new Token(la.currentToken.lexeme,la.currentToken.tokenCode);
+        Token nextToken = la.getNextToken();
+        //while loop skips until we get to the end of the comment: *)
+        while (currentToken.tokenCode == TokenCodes.TIMES && nextToken.tokenCode == TokenCodes.RPAREN){
+            currentToken = nextToken;
+            nextToken = la.getNextToken();
+            System.out.println(currentToken);
+            System.out.println(nextToken);
+        }
+        Accept(TokenCodes.TIMES);
+        Accept(TokenCodes.RPAREN);
     }
     public void FUNCTIONS(){
-        if(la.currentToken == TokenCodes.IF){
+        if(la.currentToken.tokenCode == TokenCodes.IF){
             IF();
-        }else if (la.currentToken == TokenCodes.WHILE){
+        }else if (la.currentToken.tokenCode == TokenCodes.WHILE){
             WHILE();
-        }else if (la. currentToken == TokenCodes.VAR){
+        }else if (la.currentToken.tokenCode == TokenCodes.VAR){
             Accept(TokenCodes.VAR);
-        }else if (la. currentToken == TokenCodes.READSYM){
+        }else if (la.currentToken.tokenCode == TokenCodes.READSYM){
             READ();
-        }else if (la. currentToken == TokenCodes.WRITESYM){
+        }else if (la.currentToken.tokenCode == TokenCodes.WRITESYM){
             WRITE();
-        }else if (la. currentToken == TokenCodes.BEGIN){
+        }else if (la.currentToken.tokenCode == TokenCodes.BEGIN){
             Accept(TokenCodes.READSYM);
         }
     }
@@ -99,7 +113,7 @@ public class SyntaxAnalyzer {
         Accept(TokenCodes.RPAREN);
         Accept(TokenCodes.THEN);
         STATEMENT();
-        if (la.currentToken == TokenCodes.ELSE){
+        if (la.currentToken.tokenCode == TokenCodes.ELSE){
             Accept(TokenCodes.ELSE);
             STATEMENT();
         }
@@ -115,80 +129,80 @@ public class SyntaxAnalyzer {
     }
     public void BOOLEAN(){
         EXPRESSION();
-        if(la.currentToken == TokenCodes.EQL){
+        if(la.currentToken.tokenCode == TokenCodes.EQL){
             Accept(TokenCodes.EQL);
             EXPRESSION();
-        }else if(la.currentToken == TokenCodes.DEQL){
+        }else if(la.currentToken.tokenCode == TokenCodes.DEQL){
             Accept(TokenCodes.DEQL);
             EXPRESSION();
-        }else if(la.currentToken == TokenCodes.LSS){
+        }else if(la.currentToken.tokenCode == TokenCodes.LSS){
             Accept(TokenCodes.LSS);
             EXPRESSION();
-        }else if(la.currentToken == TokenCodes.LEQ){
+        }else if(la.currentToken.tokenCode == TokenCodes.LEQ){
             Accept(TokenCodes.LEQ);
             EXPRESSION();
-        }else if(la.currentToken == TokenCodes.GTR){
+        }else if(la.currentToken.tokenCode == TokenCodes.GTR){
             Accept(TokenCodes.GTR);
             EXPRESSION();
-        }else if(la.currentToken == TokenCodes.GEQ) {
+        }else if(la.currentToken.tokenCode == TokenCodes.GEQ) {
             Accept(TokenCodes.GEQ);
             EXPRESSION();
         }
     }
     public void EXPRESSION(){
         TERM();
-        if (la.currentToken == TokenCodes.PLUS){
+        if (la.currentToken.tokenCode == TokenCodes.PLUS){
             Accept(TokenCodes.PLUS);
             TERM();
-        }else if (la.currentToken == TokenCodes.MINUS){
+        }else if (la.currentToken.tokenCode == TokenCodes.MINUS){
             Accept(TokenCodes.MINUS);
             TERM();
-        }else if (la.currentToken == TokenCodes.OR){
+        }else if (la.currentToken.tokenCode == TokenCodes.OR){
             Accept(TokenCodes.OR);
             TERM();
         }
     }
     public void TERM(){
-        if(la.currentToken == TokenCodes.NOT ||
-            la.currentToken == TokenCodes.IDENT ||
-            la.currentToken == TokenCodes.NUMLIT||
-            la.currentToken == TokenCodes.TRUE ||
-            la.currentToken == TokenCodes.FALSE
+        if(la.currentToken.tokenCode == TokenCodes.NOT ||
+            la.currentToken.tokenCode == TokenCodes.IDENT ||
+            la.currentToken.tokenCode == TokenCodes.NUMLIT||
+            la.currentToken.tokenCode == TokenCodes.TRUE ||
+            la.currentToken.tokenCode == TokenCodes.FALSE
         ){
             FACTOR();
-        }else if(la.currentToken == TokenCodes.TIMES){
+        }else if(la.currentToken.tokenCode == TokenCodes.TIMES){
             Accept(TokenCodes.TIMES);
             FACTOR();
-        }else if(la.currentToken == TokenCodes.SLASH){
+        }else if(la.currentToken.tokenCode == TokenCodes.SLASH){
             Accept(TokenCodes.SLASH);
             FACTOR();
-        }else if(la.currentToken == TokenCodes.DIV){
+        }else if(la.currentToken.tokenCode == TokenCodes.DIV){
             Accept(TokenCodes.DIV);
             FACTOR();
-        }else if(la.currentToken == TokenCodes.MOD){
+        }else if(la.currentToken.tokenCode == TokenCodes.MOD){
             Accept(TokenCodes.MOD);
             FACTOR();
-        }else if(la.currentToken == TokenCodes.AND){
+        }else if(la.currentToken.tokenCode == TokenCodes.AND){
             Accept(TokenCodes.AND);
             FACTOR();
         }
     }
     public void FACTOR(){
-        if (la.currentToken == TokenCodes.NOT){
+        if (la.currentToken.tokenCode == TokenCodes.NOT){
             Accept(TokenCodes.NOT);
         }
         PRIMARY();
     }
     public void PRIMARY(){
-        if(la.currentToken == TokenCodes.IDENT){
+        if(la.currentToken.tokenCode == TokenCodes.IDENT){
             Accept(TokenCodes.IDENT);
-        }else if (la.currentToken ==TokenCodes.NUMLIT){
+        }else if (la.currentToken.tokenCode ==TokenCodes.NUMLIT){
             Accept(TokenCodes.NUMLIT);
-        }else if (la.currentToken ==TokenCodes.TRUE){
+        }else if (la.currentToken.tokenCode ==TokenCodes.TRUE){
             Accept(TokenCodes.TRUE);
-        }else if (la.currentToken ==TokenCodes.FALSE){
+        }else if (la.currentToken.tokenCode ==TokenCodes.FALSE){
             Accept(TokenCodes.FALSE);
-        }else if (la.currentToken ==TokenCodes.LPAREN){
+        }else if (la.currentToken.tokenCode ==TokenCodes.LPAREN){
             Accept(TokenCodes.LPAREN);
             BOOLEAN();
             Accept(TokenCodes.RPAREN);

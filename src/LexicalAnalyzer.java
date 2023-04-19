@@ -11,10 +11,9 @@ public class LexicalAnalyzer {
     List<String> lines = new ArrayList<String>();   //needed ArrayList and variables
     int currentLine;
     int currentLocation;
-    String currentLexeme;
-    TokenCodes currentToken;
+    Token currentToken;
 
-    // LexicalAnalyzer constructor to read file and add lines to 
+    // LexicalAnalyzer constructor to read file and add lines to
     public LexicalAnalyzer(File file) throws FileNotFoundException {
         currentLine = 0;
         currentLocation = 0;
@@ -25,15 +24,18 @@ public class LexicalAnalyzer {
             lines.add(line);
         }
         scanner.close();
+        currentToken = getNextToken();
     }
 
-    //return the next token 
+    //return the next token
     public Token getNextToken(){
         String line = lines.get(currentLine);
         String lexeme = findNextToken(line);
 
         Token token = new Token(lexeme,getTokenCode(lexeme));
-
+        while(token.tokenCode == TokenCodes.NOTALEX){
+            token = getNextToken();
+        }
         return token;
     }
 
@@ -53,7 +55,7 @@ public class LexicalAnalyzer {
             if (currentLocation < line.length() - 1) {
                 next_letter = line.substring(currentLocation + 1, currentLocation + 2);
             }
-            //go to next character  
+            //go to next character
             if(next_letter.equals("null")){
                 currentLocation = 0;
                 currentLine++;
@@ -133,23 +135,9 @@ public class LexicalAnalyzer {
                 if(next_letter.equals("&")){
                     currentLocation++;
                     return letter+next_letter;
-                } 
-                return letter;
-            }  else if (letter.equals("*")){
-                    currentLocation++;
-                    if(next_letter.equals(")")){
-                        currentLocation++;
-                        return letter+next_letter;
-                    }
-                return letter;
-            }  else if (letter.equals("(")){
-                currentLocation++;
-                if(next_letter.equals("*")){
-                    currentLocation++;
-                    return letter+next_letter;
                 }
-            return letter;
-        } else if (letter.equals("!")){
+                return letter;
+            }else if (letter.equals("!")){
                 currentLocation++;
                 if(next_letter.equals("=")){
                     currentLocation++;
@@ -198,7 +186,7 @@ public class LexicalAnalyzer {
         TokenCodes token = TokenCodes.NULL;
 
         if(lexeme.equals(" ")){
-            token = TokenCodes.SPACE;
+            token = TokenCodes.NOTALEX;
         }else if(lexeme.equals("&")){
             token = TokenCodes.NOTALEX;
         }else if(lexeme.equals("|")){
@@ -217,10 +205,6 @@ public class LexicalAnalyzer {
             token = TokenCodes.EQL;
         }else if(lexeme.equals("==")){
             token = TokenCodes.DEQL;
-        } else if(lexeme.equals("*)")){
-            token = TokenCodes.ENDCOM;
-        } else if(lexeme.equals("(*")){
-            token = TokenCodes.OPENCOM;
         }else if(lexeme.equals("(")){
             token = TokenCodes.LPAREN;
         }else if(lexeme.equals(")")){
