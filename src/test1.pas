@@ -3,10 +3,11 @@ PROGRAM ChangeMaker;
   Cost:      INTEGER;
   Remainder: INTEGER;
   Dimes : INTEGER;
-  CONST remove from
-  Dollar := 100;
-  (* Make change  for a dollar *)
+
   BEGIN
+    (* Make change  for a dollar *)
+    CONST remove from
+    Dollar := 100;
   (* Input the Cost *)
   Write('Enter the  cost in cents: ');
   Read(Cost);

@@ -190,10 +190,10 @@ public class SyntaxAnalyzer {
     }
     public void TERM(){
         if(la.currentToken.tokenCode == TokenCodes.NOT ||
-            la.currentToken.tokenCode == TokenCodes.IDENT ||
-            la.currentToken.tokenCode == TokenCodes.NUMLIT||
-            la.currentToken.tokenCode == TokenCodes.TRUE ||
-            la.currentToken.tokenCode == TokenCodes.FALSE
+                la.currentToken.tokenCode == TokenCodes.IDENT ||
+                la.currentToken.tokenCode == TokenCodes.NUMLIT||
+                la.currentToken.tokenCode == TokenCodes.TRUE ||
+                la.currentToken.tokenCode == TokenCodes.FALSE
         ){
             FACTOR();
         }else if(la.currentToken.tokenCode == TokenCodes.TIMES){

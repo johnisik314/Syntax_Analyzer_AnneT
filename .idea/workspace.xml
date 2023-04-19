@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ec214d4-f335-40cd-85c5-abdff37801b2" name="Changes" comment="syntax analyzer; added boolean statements for if and  while; up to their primary factors">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LexicalAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LexicalAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TokenCodes.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TokenCodes.java" afterDir="false" />
-    </list>
+    <list default="true" id="2ec214d4-f335-40cd-85c5-abdff37801b2" name="Changes" comment="syntax analyzer; fixed get next token and current token; slowly going down the list of her examples, currently working on comments, line 2; it doesnt read the ending of the coment but begining is identified" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,16 +26,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/suatc/IdeaProjects/Syntax_Analyzer&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "C:/Users/suatc/IdeaProjects/Syntax_Analyzer",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
@@ -142,7 +136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681860473662</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="syntax analyzer; fixed get next token and current token; slowly going down the list of her examples, currently working on comments, line 2; it doesnt read the ending of the coment but begining is identified">
+      <created>1681863195399</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1681863195399</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -166,6 +167,7 @@
     <MESSAGE value="syntax analyzer; edit on functions" />
     <MESSAGE value="syntax analyzer; eedit" />
     <MESSAGE value="syntax analyzer; added boolean statements for if and  while; up to their primary factors" />
-    <option name="LAST_COMMIT_MESSAGE" value="syntax analyzer; added boolean statements for if and  while; up to their primary factors" />
+    <MESSAGE value="syntax analyzer; fixed get next token and current token; slowly going down the list of her examples, currently working on comments, line 2; it doesnt read the ending of the coment but begining is identified" />
+    <option name="LAST_COMMIT_MESSAGE" value="syntax analyzer; fixed get next token and current token; slowly going down the list of her examples, currently working on comments, line 2; it doesnt read the ending of the coment but begining is identified" />
   </component>
 </project>
