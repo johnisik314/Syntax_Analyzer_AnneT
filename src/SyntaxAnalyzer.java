@@ -40,9 +40,7 @@ public class SyntaxAnalyzer {
         System.out.println("^");
     }
     public void DECLERATION_PART(){
-        System.out.println(la.currentToken.tokenCode);
         if(la.currentToken.tokenCode == TokenCodes.VAR){
-
             Accept(TokenCodes.VAR);
             DECLERATIONS();
         }
@@ -75,47 +73,59 @@ public class SyntaxAnalyzer {
     }
     //possible statements inside the program; function, identifier, or comment
     public void STATEMENT_PART(){
+        Accept(TokenCodes.BEGIN);
+        STATEMENTS();
+        Accept(TokenCodes.END);
+    }
+    public void STATEMENTS(){
         STATEMENT();
-        if(la.currentToken.tokenCode == TokenCodes.IDENT){
-            STATEMENT();
+        if(la.currentToken.tokenCode == TokenCodes.SEMICOLON){
+            Accept(TokenCodes.SEMICOLON);
+            STATEMENTS();
         }
     }
     public void STATEMENT(){
-
-        FUNCTIONS();
-    }
-    //accept comments and verify the syntax
-    public void FUNCTIONS(){
-        if(la.currentToken.tokenCode == TokenCodes.IF){
-            IF();
-        }else if (la.currentToken.tokenCode == TokenCodes.WHILE){
-            WHILE();
-        }else if (la.currentToken.tokenCode == TokenCodes.VAR){
-            Accept(TokenCodes.VAR);
-        }else if (la.currentToken.tokenCode == TokenCodes.READSYM){
+        if(la.currentToken.tokenCode == TokenCodes.READSYM){
             READ();
         }else if (la.currentToken.tokenCode == TokenCodes.WRITESYM){
             WRITE();
-        }else if (la.currentToken.tokenCode == TokenCodes.BEGIN){
-            Accept(TokenCodes.READSYM);
+        }else if (la.currentToken.tokenCode == TokenCodes.IDENT){
+            Accept(TokenCodes.IDENT);
+            Accept(TokenCodes.ASSIGN_OP);
+            EXPRESSION();
+        }else if (la.currentToken.tokenCode == TokenCodes.IF){
+            IF();
+        }else if (la.currentToken.tokenCode == TokenCodes.FOR){
+            FOR();
+        }else if (la.currentToken.tokenCode == TokenCodes.WHILE){
+            WHILE();
         }
     }
+    //accept comments and verify the syntax
     public void READ(){
         Accept(TokenCodes.READSYM);
         Accept(TokenCodes.LPAREN);
-        STATEMENT();
+        Accept(TokenCodes.IDENT);
         Accept(TokenCodes.RPAREN);
     }
     public void WRITE(){
         Accept(TokenCodes.WRITESYM);
         Accept(TokenCodes.LPAREN);
-        STATEMENT();
+        Accept(TokenCodes.SINGQUO);
+        String comment = "";
+        while(true){
+            comment += la.currentToken.lexeme + " ";
+            la.currentToken = la.getNextToken();
+            if(la.currentToken.tokenCode == TokenCodes.SINGQUO){break;}
+        }
+        System.out.println("Passed quote: '"+comment+"'");
+        la.currentToken = la.getNextToken();
         Accept(TokenCodes.RPAREN);
     }
     public void IF(){
         Accept(TokenCodes.IF);
         Accept(TokenCodes.LPAREN);
-        BOOLEAN();
+        EXPRESSION();
         Accept(TokenCodes.RPAREN);
         Accept(TokenCodes.THEN);
         STATEMENT();
@@ -125,37 +135,40 @@ public class SyntaxAnalyzer {
         }
         Accept(TokenCodes.SEMICOLON);
     }
+    public void FOR(){
+    }
     public void WHILE(){
         Accept(TokenCodes.WHILE);
         Accept(TokenCodes.LPAREN);
-        BOOLEAN();
+        EXPRESSION();
         Accept(TokenCodes.RPAREN);
         Accept(TokenCodes.DO);
         STATEMENT();
     }
-    public void BOOLEAN(){
-        EXPRESSION();
+    public void EXPRESSION(){
+        MATH_EXPRE();
         if(la.currentToken.tokenCode == TokenCodes.EQL){
             Accept(TokenCodes.EQL);
-            EXPRESSION();
+            MATH_EXPRE();
         }else if(la.currentToken.tokenCode == TokenCodes.DEQL){
             Accept(TokenCodes.DEQL);
-            EXPRESSION();
+            MATH_EXPRE();
         }else if(la.currentToken.tokenCode == TokenCodes.LSS){
             Accept(TokenCodes.LSS);
-            EXPRESSION();
+            MATH_EXPRE();
         }else if(la.currentToken.tokenCode == TokenCodes.LEQ){
             Accept(TokenCodes.LEQ);
-            EXPRESSION();
+            MATH_EXPRE();
         }else if(la.currentToken.tokenCode == TokenCodes.GTR){
             Accept(TokenCodes.GTR);
-            EXPRESSION();
+            MATH_EXPRE();
         }else if(la.currentToken.tokenCode == TokenCodes.GEQ) {
             Accept(TokenCodes.GEQ);
-            EXPRESSION();
+            MATH_EXPRE();
         }
     }
-    public void EXPRESSION(){
+    //math expressions
+    public void MATH_EXPRE(){
         TERM();
         if (la.currentToken.tokenCode == TokenCodes.PLUS){
             Accept(TokenCodes.PLUS);
@@ -210,7 +223,7 @@ public class SyntaxAnalyzer {
             Accept(TokenCodes.FALSE);
         }else if (la.currentToken.tokenCode ==TokenCodes.LPAREN){
             Accept(TokenCodes.LPAREN);
-            BOOLEAN();
+            EXPRESSION();
             Accept(TokenCodes.RPAREN);
         }
     }

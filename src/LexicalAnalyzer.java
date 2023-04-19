@@ -46,10 +46,9 @@ public class LexicalAnalyzer {
                 token = getNextToken();
                 comment += token.lexeme + " ";
             }
-            System.out.println("Ignored Comment: "+ comment);
+            System.out.println("Ignored Comment: (* "+ comment);
             token = getNextToken();
         }
-
         return token;
     }
 
