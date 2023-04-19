@@ -20,7 +20,7 @@ public class SyntaxAnalyzer {
     //continue if there is no errors in the syntax
     public void Accept(TokenCodes token){
         if(la.currentToken.tokenCode == token){
-            System.out.println("Good token: "+ la.currentToken.lexeme);
+            System.out.println("Accepted token : "+ la.currentToken.lexeme + " ("+la.currentToken.tokenCode+")");
             if(la.currentToken.tokenCode == TokenCodes.EOF){
                 System.out.println("End of file; file is syntactically correct");
             }
@@ -82,29 +82,9 @@ public class SyntaxAnalyzer {
     }
     public void STATEMENT(){
 
-        if (la.currentToken.tokenCode == TokenCodes.LPAREN){
-            COMMENT();
-        }else{
-            FUNCTIONS();
-        }
+        FUNCTIONS();
     }
     //accept comments and verify the syntax
-    public void COMMENT(){
-        Accept(TokenCodes.LPAREN);
-        Accept(TokenCodes.TIMES);
-        Token currentToken = new Token(la.currentToken.lexeme,la.currentToken.tokenCode);
-        Token nextToken = la.getNextToken();
-        //while loop skips until we get to the end of the comment: *)
-        while (currentToken.tokenCode != TokenCodes.TIMES && nextToken.tokenCode != TokenCodes.RPAREN){
-            currentToken = nextToken;
-            nextToken = la.getNextToken();
-            System.out.println(currentToken);
-            System.out.println(nextToken);
-        }
-        Accept(TokenCodes.TIMES);
-        System.out.println("yoo");
-        Accept(TokenCodes.RPAREN);
-    }
     public void FUNCTIONS(){
         if(la.currentToken.tokenCode == TokenCodes.IF){
             IF();

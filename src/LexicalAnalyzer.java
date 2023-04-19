@@ -33,9 +33,23 @@ public class LexicalAnalyzer {
         String lexeme = findNextToken(line);
 
         Token token = new Token(lexeme,getTokenCode(lexeme));
-        while(token.tokenCode == TokenCodes.NOTALEX || token.tokenCode == TokenCodes.EMPTYLINE){
+
+        //ignore spaces
+        while(token.tokenCode == TokenCodes.NOTALEX || token.tokenCode == TokenCodes.EMPTYLINE || token.tokenCode == TokenCodes.UNKNOWN){
             token = getNextToken();
         }
+
+        //ignore comments
+        if(token.tokenCode == TokenCodes.OPEN_COMMENT){
+            String comment = "";
+            while(token.tokenCode != TokenCodes.CLOSE_COMMENT){
+                token = getNextToken();
+                comment += token.lexeme + " ";
+            }
+            System.out.println("Ignored Comment: "+ comment);
+            token = getNextToken();
+        }
+
         return token;
     }
 
@@ -51,7 +65,15 @@ public class LexicalAnalyzer {
                 currentLine++;
                 return "EmptyLine";
             }
+
+            if (currentLocation >= line.length()) {
+                currentLocation = 0;
+                currentLine++;
+                return token;
+            }
+
             letter = line.substring(currentLocation, currentLocation + 1);
+
             if (currentLocation < line.length() - 1) {
                 next_letter = line.substring(currentLocation + 1, currentLocation + 2);
             }
@@ -65,12 +87,10 @@ public class LexicalAnalyzer {
             if(     letter.equals(" ")||
                     letter.equals("+")||
                     letter.equals("-")||
-                    letter.equals("*")||
                     letter.equals(".")||
                     letter.equals("'")||
                     letter.equals("\"")||
                     letter.equals("%")||
-                    letter.equals("(")||
                     letter.equals("”")||
                     letter.equals("“")||
                     letter.equals(")")||
@@ -80,15 +100,28 @@ public class LexicalAnalyzer {
             ){
                 currentLocation++;
                 return letter;
-            }else if (letter.equals("&")){
+            }else if (letter.equals("(")){
+                currentLocation++;
+                if(next_letter.equals("*")){
+                    currentLocation++;
+                    return letter+next_letter;
+                }
+                return letter;
+            } else if (letter.equals("*")){
+                currentLocation++;
+                if(next_letter.equals(")")){
+                    currentLocation++;
+                    return letter+next_letter;
+                }
+                return letter;
+            } else if (letter.equals("&")){
                 currentLocation++;
                 if(next_letter.equals("&")){
                     currentLocation++;
                     return letter+next_letter;
                 }
                 return letter;
-            }
-            else if (letter.equals("|")){
+            } else if (letter.equals("|")){
                 currentLocation++;
                 if(next_letter.equals("|")){
                     currentLocation++;
@@ -165,7 +198,6 @@ public class LexicalAnalyzer {
                     next_letter.equals(">")||
                     next_letter.equals("&")||
                     next_letter.equals("!")
-
             ){
                 currentLocation++;
                 return token+letter;
@@ -175,8 +207,6 @@ public class LexicalAnalyzer {
             token = token + letter;
 
         }
-
-
 
     }
 
@@ -229,6 +259,10 @@ public class LexicalAnalyzer {
             token = TokenCodes.GTR;
         }else if(lexeme.equals(">=")){
             token = TokenCodes.GEQ;
+        }else if(lexeme.equals("(*")){
+            token = TokenCodes.OPEN_COMMENT;
+        }else if(lexeme.equals("*)")){
+            token = TokenCodes.CLOSE_COMMENT;
         }else if(lexeme.equals("&&")){
             token = TokenCodes.AND;
         }else if(lexeme.equalsIgnoreCase("array")){

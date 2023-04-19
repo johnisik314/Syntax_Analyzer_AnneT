@@ -1,5 +1,6 @@
 PROGRAM ChangeMaker;
-  VAR
+    (* Make change  for a dollar *)
+    VAR
   Cost:      INTEGER;
   Remainder: INTEGER;
   Dimes : INTEGER;
