@@ -7,8 +7,8 @@ public class SyntaxAnalyzer {
     LexicalAnalyzer la;
 
     public SyntaxAnalyzer(LexicalAnalyzer la){
-        this.la = la;                   //syntax analyzer constructor which takes in lexical analyzer 
-        Accept(TokenCodes.PROGRAM);
+        this.la = la;                   //syntax analyzer constructor which takes in lexical analyzer then begins the syntax analysis, breaking down 
+        Accept(TokenCodes.PROGRAM);     // the text file contents 
         Accept(TokenCodes.IDENT);
         Accept(TokenCodes.SEMICOLON);
         DECLERATION_PART();
