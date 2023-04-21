@@ -7,7 +7,7 @@ public class SyntaxAnalyzer {
     LexicalAnalyzer la;
 
     public SyntaxAnalyzer(LexicalAnalyzer la){
-        this.la = la;
+        this.la = la;                   //syntax analyzer constructor which takes in lexical analyzer 
         Accept(TokenCodes.PROGRAM);
         Accept(TokenCodes.IDENT);
         Accept(TokenCodes.SEMICOLON);
@@ -41,6 +41,15 @@ public class SyntaxAnalyzer {
         }
         System.out.println("^");
     }
+
+    /*
+     * Each of the following will accept the correct terms that must appear in order
+     * and will check its valdidity with the accept function that takes in the token code
+     * If they are not in order, error message will appear and point out syntax error
+     */
+
+
+
     public void DECLERATION_PART(){                 //starts variable declaration segment of code
         if(la.currentToken.tokenCode == TokenCodes.VAR){
             Accept(TokenCodes.VAR);
@@ -152,9 +161,15 @@ public class SyntaxAnalyzer {
         Accept(TokenCodes.SEMICOLON);
     }
     
-    public void FOR(){
-        
-
+    public void FOR(){      //checks the validity of the for loop
+        Accept(TokenCodes.FOR);
+        Accept(TokenCodes.IDENT);
+        Accept(TokenCodes.ASSIGN_OP);
+        Accept(TokenCodes.NUMLIT);
+        Accept(TokenCodes.TO);
+        Accept(TokenCodes.NUMLIT);
+        Accept(TokenCodes.DO);
+        STATEMENT();
     }
     public void WHILE(){            //checks while loop validity
         Accept(TokenCodes.WHILE);
@@ -165,7 +180,7 @@ public class SyntaxAnalyzer {
         STATEMENT();
     }
 
-    public void EXPRESSION(){
+    public void EXPRESSION(){       //evaluates expressions
         MATH_EXPRE();
         if(la.currentToken.tokenCode == TokenCodes.EQL){
             Accept(TokenCodes.EQL);
@@ -240,7 +255,7 @@ public class SyntaxAnalyzer {
         }
         PRIMARY();
     }
-    public void PRIMARY(){
+    public void PRIMARY(){          //breaks down 
         if(la.currentToken.tokenCode == TokenCodes.IDENT){
             Accept(TokenCodes.IDENT);
         }else if (la.currentToken.tokenCode ==TokenCodes.NUMLIT){
