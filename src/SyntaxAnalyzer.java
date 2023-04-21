@@ -1,3 +1,4 @@
+import javax.lang.model.util.ElementScanner6;
 import javax.swing.*;
 import java.beans.Expression;
 import java.sql.SQLOutput;
@@ -27,10 +28,11 @@ public class SyntaxAnalyzer {
         }else{
             errorMessege();
             System.out.println("Syntax Error; \n   Expected lexeme: "+token+"\n   Current token: "+la.currentToken.tokenCode);
+            
         }
         la.currentToken = la.getNextToken();
     }
-
+    
     //output of error in terminal if there is any found by Accept() method
     private void errorMessege() {
         System.out.println(la.lines.get(la.currentLine));
@@ -39,32 +41,35 @@ public class SyntaxAnalyzer {
         }
         System.out.println("^");
     }
-    public void DECLERATION_PART(){
+    public void DECLERATION_PART(){                 //starts variable declaration segment of code
         if(la.currentToken.tokenCode == TokenCodes.VAR){
             Accept(TokenCodes.VAR);
             DECLERATIONS();
         }
     }
-    public void DECLERATIONS(){
+    public void DECLERATIONS(){                     
         DECLERATION();
         if(la.currentToken.tokenCode == TokenCodes.IDENT){
             DECLERATION();
             DECLERATIONS();
         }
     }
-    public void DECLERATION(){
+    public void DECLERATION(){              // variable declarations that begin with VAR reserved word
         IDENT();
         Accept(TokenCodes.COLON);
         if(la.currentToken.tokenCode == TokenCodes.REAL){
             Accept(TokenCodes.REAL);
         }else if(la.currentToken.tokenCode == TokenCodes.INT){
             Accept(TokenCodes.INT);
+        }else if(la.currentToken.tokenCode == TokenCodes.EQL){
+            Accept(TokenCodes.EQL);
+            MATH_EXPRE();
         }else if(la.currentToken.tokenCode == TokenCodes.BOOL){
             Accept(TokenCodes.BOOL);
         }
         Accept(TokenCodes.SEMICOLON);
     }
-    public void IDENT(){
+    public void IDENT(){            //can be anything that is not a reserved word, mostly used for variable names
         Accept(TokenCodes.IDENT);
         if(la.currentToken.tokenCode == TokenCodes.COMMA){
             Accept(TokenCodes.COMMA);
@@ -77,14 +82,14 @@ public class SyntaxAnalyzer {
         STATEMENTS();
         Accept(TokenCodes.END);
     }
-    public void STATEMENTS(){
+    public void STATEMENTS(){       //accept a statement, but has to end in semicolon
         STATEMENT();
         if(la.currentToken.tokenCode == TokenCodes.SEMICOLON){
             Accept(TokenCodes.SEMICOLON);
             STATEMENTS();
         }
     }
-    public void STATEMENT(){
+    public void STATEMENT(){        //determine which function is being called using reserved word 
         if(la.currentToken.tokenCode == TokenCodes.READSYM){
             READ();
         }else if (la.currentToken.tokenCode == TokenCodes.WRITESYM){
@@ -99,18 +104,22 @@ public class SyntaxAnalyzer {
             FOR();
         }else if (la.currentToken.tokenCode == TokenCodes.WHILE){
             WHILE();
+        } else if (la.currentToken.tokenCode == TokenCodes.ELSE){
+            STATEMENT();         //test
         }
     }
-    //accept comments and verify the syntax
-    public void READ(){
+   
+    public void READ(){             //correctly analyze read function
         Accept(TokenCodes.READSYM);
         Accept(TokenCodes.LPAREN);
         Accept(TokenCodes.IDENT);
         Accept(TokenCodes.RPAREN);
     }
-    public void WRITE(){
+
+    public void WRITE(){            //correctly analyze write function which can be both string or variable parameter
         Accept(TokenCodes.WRITESYM);
         Accept(TokenCodes.LPAREN);
+     if(la.currentToken.tokenCode == TokenCodes.SINGQUO){
         Accept(TokenCodes.SINGQUO);
         String comment = "";
         while(true){
@@ -121,8 +130,15 @@ public class SyntaxAnalyzer {
         System.out.println("Passed quote: '"+comment+"'");
         la.currentToken = la.getNextToken();
         Accept(TokenCodes.RPAREN);
+        
     }
-    public void IF(){
+    else if(la.currentToken.tokenCode == TokenCodes.IDENT){
+       Accept(TokenCodes.IDENT);
+       Accept(TokenCodes.RPAREN);
+        }
+    }
+
+    public void IF(){       //checks if statement validity and takes expression in the center
         Accept(TokenCodes.IF);
         Accept(TokenCodes.LPAREN);
         EXPRESSION();
@@ -135,9 +151,12 @@ public class SyntaxAnalyzer {
         }
         Accept(TokenCodes.SEMICOLON);
     }
+    
     public void FOR(){
+        
+
     }
-    public void WHILE(){
+    public void WHILE(){            //checks while loop validity
         Accept(TokenCodes.WHILE);
         Accept(TokenCodes.LPAREN);
         EXPRESSION();
@@ -145,6 +164,7 @@ public class SyntaxAnalyzer {
         Accept(TokenCodes.DO);
         STATEMENT();
     }
+
     public void EXPRESSION(){
         MATH_EXPRE();
         if(la.currentToken.tokenCode == TokenCodes.EQL){
@@ -179,9 +199,16 @@ public class SyntaxAnalyzer {
         }else if (la.currentToken.tokenCode == TokenCodes.OR){
             Accept(TokenCodes.OR);
             TERM();
-        }
+        }else if (la.currentToken.tokenCode == TokenCodes.DIV){
+            Accept(TokenCodes.DIV);
+            TERM();
+       }  else if (la.currentToken.tokenCode == TokenCodes.MOD){
+                Accept(TokenCodes.MOD);
+                TERM();
+        } 
+    
     }
-    public void TERM(){
+    public void TERM(){         //analyzes simple terms in mathematical expressions
         if(la.currentToken.tokenCode == TokenCodes.NOT ||
                 la.currentToken.tokenCode == TokenCodes.IDENT ||
                 la.currentToken.tokenCode == TokenCodes.NUMLIT||
@@ -192,7 +219,7 @@ public class SyntaxAnalyzer {
         }else if(la.currentToken.tokenCode == TokenCodes.TIMES){
             Accept(TokenCodes.TIMES);
             FACTOR();
-        }else if(la.currentToken.tokenCode == TokenCodes.SLASH){
+        } else if(la.currentToken.tokenCode == TokenCodes.SLASH){
             Accept(TokenCodes.SLASH);
             FACTOR();
         }else if(la.currentToken.tokenCode == TokenCodes.DIV){
@@ -204,9 +231,10 @@ public class SyntaxAnalyzer {
         }else if(la.currentToken.tokenCode == TokenCodes.AND){
             Accept(TokenCodes.AND);
             FACTOR();
-        }
+        } 
+        
     }
-    public void FACTOR(){
+    public void FACTOR(){           //if its not, accept else go to primary
         if (la.currentToken.tokenCode == TokenCodes.NOT){
             Accept(TokenCodes.NOT);
         }
