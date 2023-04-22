@@ -13,7 +13,7 @@ public class SyntaxAnalyzer {
         Accept(TokenCodes.SEMICOLON);
         DECLERATION_PART();
         STATEMENT_PART();
-        //Accept(TokenCodes.EOF);
+        Accept(TokenCodes.EOF);
     }
 
     //this is the essential function which accepts token codes;
@@ -23,12 +23,16 @@ public class SyntaxAnalyzer {
         if(la.currentToken.tokenCode == token){
             System.out.println("Accepted token : "+ la.currentToken.lexeme + " ("+la.currentToken.tokenCode+")");
             if(la.currentToken.tokenCode == TokenCodes.EOF){
-                System.out.println("End of file; file is syntactically correct");
+                System.out.println("=================================\n");
+                System.out.println("End of file");
+                System.out.println("=================================\n");
             }
         }else{
+            System.out.println("\n=================================");
+            System.out.println("Syntax Error;");
             errorMessege();
-            System.out.println("Syntax Error; \n   Expected lexeme: "+token+"\n   Current token: "+la.currentToken.tokenCode);
-            
+            System.out.println("Expected lexeme: "+token+"\n   Current token: "+la.currentToken.tokenCode);
+            System.out.println("=================================\n");
         }
         la.currentToken = la.getNextToken();
     }

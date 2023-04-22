@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="2ec214d4-f335-40cd-85c5-abdff37801b2" name="Changes" comment="syntax analyzer; comments ignored; edited output ; out of boud bug fixed forever finally">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LexicalAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LexicalAnalyzer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test1.pas" beforeDir="false" afterPath="$PROJECT_DIR$/src/test1.pas" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
