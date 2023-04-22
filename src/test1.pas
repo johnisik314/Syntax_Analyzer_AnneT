@@ -16,5 +16,4 @@ PROGRAM ChangeMaker;
   Remainder == Remainder % 10;
   Remainder =  Remainder MOD 5;
   IF (Remainder = 0) THEN Write (“No money left”) ELSE Write (Remainder);
-
   END. (*  ChangeMaker *)

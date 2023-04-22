@@ -29,7 +29,13 @@ public class LexicalAnalyzer {
 
     //return the next token
     public Token getNextToken(){
-        String line = lines.get(currentLine);
+        String line ="";
+        if(currentLine < lines.size()){
+            line = lines.get(currentLine);
+        }else{
+            Token token = new Token("End of File",TokenCodes.EOF);
+            return token;
+        }
         String lexeme = findNextToken(line);
 
         Token token = new Token(lexeme,getTokenCode(lexeme));

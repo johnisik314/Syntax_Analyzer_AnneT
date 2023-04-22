@@ -13,7 +13,11 @@ public class SyntaxAnalyzer {
         Accept(TokenCodes.SEMICOLON);
         DECLERATION_PART();
         STATEMENT_PART();
+        while(la.currentToken.tokenCode !=TokenCodes.EOF){
+            la.currentToken = la.getNextToken();
+        }
         Accept(TokenCodes.EOF);
+
     }
 
     //this is the essential function which accepts token codes;
@@ -23,7 +27,7 @@ public class SyntaxAnalyzer {
         if(la.currentToken.tokenCode == token){
             System.out.println("Accepted token : "+ la.currentToken.lexeme + " ("+la.currentToken.tokenCode+")");
             if(la.currentToken.tokenCode == TokenCodes.EOF){
-                System.out.println("=================================\n");
+                System.out.println("=================================");
                 System.out.println("End of file");
                 System.out.println("=================================\n");
             }
@@ -31,7 +35,7 @@ public class SyntaxAnalyzer {
             System.out.println("\n=================================");
             System.out.println("Syntax Error;");
             errorMessege();
-            System.out.println("Expected lexeme: "+token+"\n   Current token: "+la.currentToken.tokenCode);
+            System.out.println("   Expected lexeme: "+token+"\n   Current token: "+la.currentToken.tokenCode);
             System.out.println("=================================\n");
         }
         la.currentToken = la.getNextToken();
@@ -39,11 +43,14 @@ public class SyntaxAnalyzer {
     
     //output of error in terminal if there is any found by Accept() method
     private void errorMessege() {
-        System.out.println(la.lines.get(la.currentLine));
+        if(la.lines.size() > la.currentLine){
+            System.out.println(la.lines.get(la.currentLine));
+        }
         for(int i=1; i<la.currentLocation;i++){
             System.out.print(" ");
         }
         System.out.println("^");
+
     }
 
     /*
@@ -94,6 +101,7 @@ public class SyntaxAnalyzer {
         Accept(TokenCodes.BEGIN);
         STATEMENTS();
         Accept(TokenCodes.END);
+        Accept(TokenCodes.PERIOD);
     }
     public void STATEMENTS(){       //accept a statement, but has to end in semicolon
         STATEMENT();
@@ -132,22 +140,37 @@ public class SyntaxAnalyzer {
     public void WRITE(){            //correctly analyze write function which can be both string or variable parameter
         Accept(TokenCodes.WRITESYM);
         Accept(TokenCodes.LPAREN);
-     if(la.currentToken.tokenCode == TokenCodes.SINGQUO){
-        Accept(TokenCodes.SINGQUO);
+     if(la.currentToken.tokenCode == TokenCodes.SINGQUO || la.currentToken.tokenCode == TokenCodes.QUOTE){
+         if(la.currentToken.tokenCode == TokenCodes.SINGQUO){
+             Accept(TokenCodes.SINGQUO);
+         }else if (la.currentToken.tokenCode == TokenCodes.QUOTE){
+            Accept(TokenCodes.QUOTE);
+         }
         String comment = "";
         while(true){
             comment += la.currentToken.lexeme + " ";
             la.currentToken = la.getNextToken();
-            if(la.currentToken.tokenCode == TokenCodes.SINGQUO){break;}
+            if(la.currentToken.tokenCode == TokenCodes.SINGQUO || la.currentToken.tokenCode == TokenCodes.QUOTE){break;}
         }
+         if(la.currentToken.tokenCode == TokenCodes.SINGQUO){
+             Accept(TokenCodes.SINGQUO);
+         }else if (la.currentToken.tokenCode == TokenCodes.QUOTE){
+             Accept(TokenCodes.QUOTE);
+         }
         System.out.println("Passed quote: '"+comment+"'");
-        la.currentToken = la.getNextToken();
         Accept(TokenCodes.RPAREN);
-        
+
     }
-    else if(la.currentToken.tokenCode == TokenCodes.IDENT){
-       Accept(TokenCodes.IDENT);
-       Accept(TokenCodes.RPAREN);
+    else {
+        String parameter = "";
+         while(true){
+             parameter += la.currentToken.lexeme + " ";
+             la.currentToken = la.getNextToken();
+             if(la.currentToken.tokenCode == TokenCodes.RPAREN){break;}
+         }
+
+         System.out.println("Passed parameter: "+parameter);
+         Accept(TokenCodes.RPAREN);
         }
     }
 
@@ -157,12 +180,11 @@ public class SyntaxAnalyzer {
         EXPRESSION();
         Accept(TokenCodes.RPAREN);
         Accept(TokenCodes.THEN);
-        STATEMENT();
+        STATEMENTS();
         if (la.currentToken.tokenCode == TokenCodes.ELSE){
             Accept(TokenCodes.ELSE);
-            STATEMENT();
+            STATEMENTS();
         }
-        Accept(TokenCodes.SEMICOLON);
     }
     
     public void FOR(){      //checks the validity of the for loop
