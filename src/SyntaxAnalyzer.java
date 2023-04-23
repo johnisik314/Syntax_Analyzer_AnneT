@@ -1,8 +1,33 @@
 import javax.lang.model.util.ElementScanner6;
 import javax.swing.*;
 import java.beans.Expression;
+import java.rmi.UnexpectedException;
 import java.sql.SQLOutput;
+import java.sql.ShardingKeyBuilder;
 
+/*
+*The following mmethods were used to implement the syntax analysis:
+*
+*  -ACCEPT()
+*  -errorMessege()
+*  -DECLERATION_PART()
+*  -DECLERATIONS()
+*  -DECLERATION()
+*  - IDENT()
+*  -STATEMENT_PART()
+*  - STATEMENTS()
+*  - STATEMENT()
+*  -  READ()
+*  - WRITE()
+*  -  IF()
+*  - FOR()
+* - WHILE()
+* - EXPRESSION()
+* -MATH_EXPRE()
+* - TERM()
+* -FACTOR()
+* - PRIMARY()
+* */
 public class SyntaxAnalyzer {
     LexicalAnalyzer la;
 
@@ -126,7 +151,7 @@ public class SyntaxAnalyzer {
         }else if (la.currentToken.tokenCode == TokenCodes.WHILE){
             WHILE();
         } else if (la.currentToken.tokenCode == TokenCodes.ELSE){
-            STATEMENT();         //test
+            STATEMENT();         //test *****
         }
     }
    
@@ -140,38 +165,24 @@ public class SyntaxAnalyzer {
     public void WRITE(){            //correctly analyze write function which can be both string or variable parameter
         Accept(TokenCodes.WRITESYM);
         Accept(TokenCodes.LPAREN);
-     if(la.currentToken.tokenCode == TokenCodes.SINGQUO || la.currentToken.tokenCode == TokenCodes.QUOTE){
-         if(la.currentToken.tokenCode == TokenCodes.SINGQUO){
-             Accept(TokenCodes.SINGQUO);
-         }else if (la.currentToken.tokenCode == TokenCodes.QUOTE){
-            Accept(TokenCodes.QUOTE);
-         }
-        String comment = "";
-        while(true){
-            comment += la.currentToken.lexeme + " ";
-            la.currentToken = la.getNextToken();
-            if(la.currentToken.tokenCode == TokenCodes.SINGQUO || la.currentToken.tokenCode == TokenCodes.QUOTE){break;}
-        }
-         if(la.currentToken.tokenCode == TokenCodes.SINGQUO){
-             Accept(TokenCodes.SINGQUO);
-         }else if (la.currentToken.tokenCode == TokenCodes.QUOTE){
-             Accept(TokenCodes.QUOTE);
-         }
-        System.out.println("Passed quote: '"+comment+"'");
-        Accept(TokenCodes.RPAREN);
-
-    }
-    else {
         String parameter = "";
-         while(true){
-             parameter += la.currentToken.lexeme + " ";
-             la.currentToken = la.getNextToken();
-             if(la.currentToken.tokenCode == TokenCodes.RPAREN){break;}
-         }
-
-         System.out.println("Passed parameter: "+parameter);
-         Accept(TokenCodes.RPAREN);
+        if(la.currentToken.tokenCode == TokenCodes.SINGQUO){
+             Accept(TokenCodes.SINGQUO);
+             while(la.currentToken.tokenCode != TokenCodes.SINGQUO){
+                 parameter = parameter +" "+ la.currentToken.lexeme;
+                 System.out.println("if"+la.currentToken.tokenCode);
+                 la.currentToken = la.getNextToken();
+             }
+            Accept(TokenCodes.SINGQUO);
+        }else if(la.currentToken.tokenCode == TokenCodes.IDENT){
+            while(la.currentToken.tokenCode != TokenCodes.RPAREN){
+                parameter = parameter + la.currentToken.lexeme;
+                System.out.println("else"+la.currentToken.tokenCode);
+                la.currentToken = la.getNextToken();
+            }
         }
+        System.out.println("Parameter accepted by write: "+parameter);
+        Accept(TokenCodes.RPAREN);
     }
 
     public void IF(){       //checks if statement validity and takes expression in the center
@@ -180,6 +191,7 @@ public class SyntaxAnalyzer {
         EXPRESSION();
         Accept(TokenCodes.RPAREN);
         Accept(TokenCodes.THEN);
+        System.out.println(la.currentToken.tokenCode);
         STATEMENTS();
         if (la.currentToken.tokenCode == TokenCodes.ELSE){
             Accept(TokenCodes.ELSE);
@@ -187,7 +199,7 @@ public class SyntaxAnalyzer {
         }
     }
     
-    public void FOR(){      //checks the validity of the for loop
+    public void FOR(){            //checks the validity of the for loop
         Accept(TokenCodes.FOR);
         Accept(TokenCodes.IDENT);
         Accept(TokenCodes.ASSIGN_OP);

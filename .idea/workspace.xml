@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2ec214d4-f335-40cd-85c5-abdff37801b2" name="Changes" comment="syntax analyzer; changed the output format">
+    <list default="true" id="2ec214d4-f335-40cd-85c5-abdff37801b2" name="Changes" comment="lexical analyzer; getNextToken contains ignoreing comment function, syntax analyzer; write function fixed accepts any parameter and printsout the parameter, semicolon at the end of if statement was creating problem fixed, out of bound no more, program returns repiditly EOF when run out of line and ends without error,">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LexicalAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/LexicalAnalyzer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/SyntaxAnalyzer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test1.pas" beforeDir="false" afterPath="$PROJECT_DIR$/src/test1.pas" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682139955198</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="lexical analyzer; getNextToken contains ignoreing comment function, syntax analyzer; write function fixed accepts any parameter and printsout the parameter, semicolon at the end of if statement was creating problem fixed, out of bound no more, program returns repiditly EOF when run out of line and ends without error,">
+      <created>1682143779130</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1682143779130</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -197,6 +202,7 @@
     <MESSAGE value="syntax analyzer; decleration part is DONE runing WROKING CRAZY;&#10;need o work on;&#10;statement part starts with BEGIN ends with .END; &#10;ignore comments;" />
     <MESSAGE value="syntax analyzer; comments ignored; edited output ; out of boud bug fixed forever finally" />
     <MESSAGE value="syntax analyzer; changed the output format" />
-    <option name="LAST_COMMIT_MESSAGE" value="syntax analyzer; changed the output format" />
+    <MESSAGE value="lexical analyzer; getNextToken contains ignoreing comment function, syntax analyzer; write function fixed accepts any parameter and printsout the parameter, semicolon at the end of if statement was creating problem fixed, out of bound no more, program returns repiditly EOF when run out of line and ends without error," />
+    <option name="LAST_COMMIT_MESSAGE" value="lexical analyzer; getNextToken contains ignoreing comment function, syntax analyzer; write function fixed accepts any parameter and printsout the parameter, semicolon at the end of if statement was creating problem fixed, out of bound no more, program returns repiditly EOF when run out of line and ends without error," />
   </component>
 </project>
